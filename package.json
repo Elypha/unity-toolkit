@@ -1,0 +1,16 @@
+{
+    "name": "com.elypha.unity-toolkit",
+    "displayName": "Unity Toolkit",
+    "description": "General Unity Editor QoL utilities.",
+    "author": {
+        "name": "Elypha",
+        "email": "i@elypha.com",
+        "url": "https://elypha.com"
+    },
+    "url": "https://github.com/Elypha/unity-toolkit",
+    "version": "0.1.0",
+    "license": "AGPL-3.0-only",
+    "unity": "2022.3",
+    "vpmDependencies": {},
+    "dependencies": {}
+}
