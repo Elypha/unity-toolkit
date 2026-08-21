@@ -7,6 +7,12 @@ namespace Elypha.UnityToolkit
 {
     public static class CopyHierarchyPath {
         private const string MenuPath = "GameObject/Elypha/Copy Hierarchy Path";
+        private const string ShortcutTag = "Elypha.CopyContextPath";
+
+        [InitializeOnLoadMethod]
+        private static void RegisterShortcutTag() {
+            ShortcutManager.RegisterTag(ShortcutTag);
+        }
 
         [MenuItem(MenuPath, false, 1)]
         private static void Copy(MenuCommand command) {
@@ -16,7 +22,8 @@ namespace Elypha.UnityToolkit
 
         [Shortcut(
             "Elypha/Copy Context Path",
-            typeof(EditorWindow),
+            null,
+            ShortcutTag,
             KeyCode.C,
             ShortcutModifiers.Action | ShortcutModifiers.Alt)]
         private static void CopyContextPath() {
