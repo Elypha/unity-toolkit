@@ -1,15 +1,38 @@
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.ShortcutManagement;
 using UnityEngine;
 
 namespace Elypha.UnityToolkit
 {
     public static class CopyHierarchyPath {
-        private const string MenuPath = "GameObject/Elypha/Copy Hierarchy Path %&c";
+        private const string MenuPath = "GameObject/Elypha/Copy Hierarchy Path";
 
         [MenuItem(MenuPath, false, 1)]
         private static void Copy(MenuCommand command) {
             var gameObject = command.context as GameObject ?? Selection.activeGameObject;
+            Copy(gameObject);
+        }
+
+        [Shortcut(
+            "Elypha/Copy Context Path",
+            typeof(EditorWindow),
+            KeyCode.C,
+            ShortcutModifiers.Action | ShortcutModifiers.Alt)]
+        private static void CopyContextPath() {
+            var gameObject = Selection.activeGameObject;
+            if (gameObject != null && gameObject.scene.IsValid()) {
+                Copy(gameObject);
+                return;
+            }
+
+            var assetPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+            if (!string.IsNullOrEmpty(assetPath)) {
+                EditorApplication.ExecuteMenuItem("Assets/Copy Path");
+            }
+        }
+
+        private static void Copy(GameObject gameObject) {
             if (gameObject == null || !gameObject.scene.IsValid()) {
                 return;
             }
