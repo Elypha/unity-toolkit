@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Elypha.UnityToolkit
 {
     public static class CopyHierarchyPath {
-        private const string MenuPath = "GameObject/Elypha/Copy Hierarchy Path";
+        private const string MenuPath = "GameObject/Elypha/Copy Hierarchy Path %&c";
 
         [MenuItem(MenuPath, false, 1)]
         private static void Copy(MenuCommand command) {
@@ -21,7 +21,7 @@ namespace Elypha.UnityToolkit
             names.Reverse();
 
             var hierarchyPath = string.Join("/", names);
-            EditorGUIUtility.systemCopyBuffer = $"{gameObject.scene.name}.unity {hierarchyPath}";
+            EditorGUIUtility.systemCopyBuffer = $"{gameObject.scene.name}.unity :: {hierarchyPath}";
         }
 
         [MenuItem(MenuPath, true, 1)]
