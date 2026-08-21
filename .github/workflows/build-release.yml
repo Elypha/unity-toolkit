@@ -73,6 +73,7 @@ jobs:
         with:
           draft: false
           prerelease: false
+          overwrite_files: false
           body_path: RELEASE_NOTES.md
           files: |
             ${{ steps.info.outputs.zipName }}
