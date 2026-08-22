@@ -41,7 +41,19 @@ namespace Elypha.UnityToolkit
 
         static HierarchyBuildStateToggle()
         {
+            AssemblyReloadEvents.beforeAssemblyReload += Unpatch;
+
+            // Harmony resolves the target method immediately; during assembly reload,
+            // that initializes Unity's named styles without a current GUISkin.
+            EditorApplication.hierarchyWindowItemOnGUI += ApplyPatchOnHierarchyGUI;
+            EditorApplication.RepaintHierarchyWindow();
+        }
+
+        private static void ApplyPatchOnHierarchyGUI(int instanceId, Rect selectionRect)
+        {
+            EditorApplication.hierarchyWindowItemOnGUI -= ApplyPatchOnHierarchyGUI;
             ApplyPatch();
+            EditorApplication.RepaintHierarchyWindow();
         }
 
         private static void ApplyPatch()
@@ -60,12 +72,12 @@ namespace Elypha.UnityToolkit
 
             harmony = new Harmony(HarmonyId);
             harmony.Patch(target, prefix: new HarmonyMethod(prefix));
-            AssemblyReloadEvents.beforeAssemblyReload += Unpatch;
         }
 
         private static void Unpatch()
         {
-            harmony.UnpatchAll(HarmonyId);
+            EditorApplication.hierarchyWindowItemOnGUI -= ApplyPatchOnHierarchyGUI;
+            harmony?.UnpatchAll(HarmonyId);
         }
 
         private static bool DrawGameObjectItemPickingPrefix(
